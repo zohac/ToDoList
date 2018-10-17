@@ -3,3 +3,10 @@ engines:
     phpcs:
         enabled: true
         php_version: 7.1
+    coverage:
+        enabled: true
+    exclude_paths:
+        - 'app/*.php'
+        - 'var/**'
+        - 'web/*.php'
+        - '*.min.js'
