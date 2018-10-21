@@ -1,0 +1,16 @@
+---
+engines:
+    phpcs:
+        enabled: true
+        php_version: 7.1
+        exclude_paths:
+            - 'app/**'
+            - 'var/**'
+            - 'web/*.php'
+    coverage:
+        enabled: true
+    exclude_paths:
+        - 'app/*.php'
+        - 'var/**'
+        - 'web/*.php'
+        - '*.min.js'

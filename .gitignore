@@ -14,3 +14,15 @@
 !var/SymfonyRequirements.php
 /vendor/
 /web/bundles/
+
+###> PHP-CS-FIXER ###
+.php_cs.cache
+###< PHP-CS-FIXER ###
+
+###> PHPmd ###
+phpmd.html
+###< PHPmd ###
+
+###> test results ###
+/web/test-coverage/*
+###< test results ###
