@@ -7,6 +7,13 @@ engines:
             - 'app/**'
             - 'var/**'
             - 'web/*.php'
+            - 'app/AppCache.php'
+            - 'app/AppKernel.php'
+            - 'app/autoload.php'
+            - 'var/SymfonyRequirements.php'
+            - 'web/app_dev.php'
+            - 'web/app.php'
+            - 'web/config.php'
     coverage:
         enabled: true
     exclude_paths:
@@ -14,3 +21,10 @@ engines:
         - 'var/**'
         - 'web/*.php'
         - '*.min.js'
+        - 'app/AppCache.php'
+        - 'app/AppKernel.php'
+        - 'app/autoload.php'
+        - 'var/SymfonyRequirements.php'
+        - 'web/app_dev.php'
+        - 'web/app.php'
+        - 'web/config.php'
