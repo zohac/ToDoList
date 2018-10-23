@@ -22,6 +22,8 @@ class UserController extends Controller
 
     /**
      * @Route("/users/create", name="user_create")
+     *
+     * @param Request $request
      */
     public function createAction(Request $request)
     {
@@ -48,6 +50,9 @@ class UserController extends Controller
 
     /**
      * @Route("/users/{id}/edit", name="user_edit")
+     *
+     * @param User    $user
+     * @param Request $request
      */
     public function editAction(User $user, Request $request)
     {

@@ -39,51 +39,124 @@ class User implements UserInterface
      */
     private $email;
 
-    public function getId()
+    /**
+     * @var array
+     *
+     * @ORM\Column(name="roles", type="array", length=100, nullable=true)
+     */
+    private $roles;
+
+    /**
+     * Get the Id.
+     *
+     * @return int
+     */
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getUsername()
+    /**
+     * Get the username.
+     *
+     * @return string
+     */
+    public function getUsername(): ?string
     {
         return $this->username;
     }
 
-    public function setUsername($username)
+    /**
+     * Set the username.
+     *
+     * @param string $username
+     */
+    public function setUsername(string $username): self
     {
         $this->username = $username;
+
+        return $this;
     }
 
+    /**
+     * Get salt.
+     */
     public function getSalt()
     {
         return null;
     }
 
-    public function getPassword()
+    /**
+     * Get the password.
+     *
+     * @return string
+     */
+    public function getPassword(): ?string
     {
         return $this->password;
     }
 
-    public function setPassword($password)
+    /**
+     * Set the password.
+     *
+     * @param string $password
+     */
+    public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
     }
 
-    public function getEmail()
+    /**
+     * Get the email.
+     *
+     * @return string
+     */
+    public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    public function setEmail($email)
+    /**
+     * Set the email.
+     *
+     * @param string $email
+     */
+    public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
     }
 
-    public function getRoles()
+    /**
+     * Set roles.
+     *
+     * @param array $roles
+     *
+     * @return User
+     */
+    public function setRoles(array $roles): self
     {
-        return array('ROLE_USER');
+        $this->roles = $roles;
+
+        return $this;
     }
 
+    /**
+     * Get roles.
+     *
+     * @return array
+     */
+    public function getRoles(): ?array
+    {
+        return $this->roles;
+    }
+
+    /**
+     * Removes sensitive data from the user.
+     */
     public function eraseCredentials()
     {
     }

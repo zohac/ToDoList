@@ -1,4 +1,8 @@
 security:
+    role_hierarchy:
+        # Admin inherits user rights
+        ROLE_ADMIN:       [ROLE_USER]
+
     encoders:
         AppBundle\Entity\User: bcrypt
 
