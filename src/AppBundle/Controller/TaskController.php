@@ -5,7 +5,9 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Task;
 use AppBundle\Form\TaskType;
 use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class TaskController extends Controller
@@ -13,17 +15,17 @@ class TaskController extends Controller
     /**
      * @Route("/tasks", name="task_list")
      */
-    public function listAction()
+    public function listAction(ObjectManager $entityManager)
     {
-        return $this->render('task/list.html.twig', [
-            'tasks' => $this->getDoctrine()->getRepository('AppBundle:Task')->findAll(),
-        ]);
+        $tasks = $entityManager->getRepository(Task::class)->findAllWhithAllEntities();
+
+        return $this->render('task/list.html.twig', ['tasks' => $tasks]);
     }
 
     /**
      * @Route("/tasks/create", name="task_create")
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request, UserInterface $user, ObjectManager $entityManager)
     {
         $task = new Task();
         $form = $this->createForm(TaskType::class, $task);
@@ -31,10 +33,10 @@ class TaskController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $task->setUser($user);
 
-            $em->persist($task);
-            $em->flush();
+            $entityManager->persist($task);
+            $entityManager->flush();
 
             $this->addFlash('success', 'La tâche a été bien été ajoutée.');
 
