@@ -162,30 +162,6 @@ class Task
     }
 
     /**
-     * Set isDone.
-     *
-     * @param bool $isDone
-     *
-     * @return Task
-     */
-    public function setIsDone($isDone)
-    {
-        $this->isDone = $isDone;
-
-        return $this;
-    }
-
-    /**
-     * Get isDone.
-     *
-     * @return bool
-     */
-    public function getIsDone()
-    {
-        return $this->isDone;
-    }
-
-    /**
      * Set user.
      *
      * @param User|null $user
