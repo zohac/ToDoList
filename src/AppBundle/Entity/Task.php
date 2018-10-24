@@ -8,6 +8,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity
  * @ORM\Table
+ *
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\TaskRepository")
  */
 class Task
 {
@@ -40,54 +42,176 @@ class Task
      */
     private $isDone;
 
+    /**
+     * @var User|null
+     *
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\User")
+     */
+    private $user;
+
     public function __construct()
     {
         $this->createdAt = new \Datetime();
         $this->isDone = false;
     }
 
-    public function getId()
+    /**
+     * Get the unique id.
+     *
+     * @return int
+     */
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getCreatedAt()
+    /**
+     * Get the date of creation.
+     *
+     * @return Datetime
+     */
+    public function getCreatedAt(): \Datetime
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt($createdAt)
+    /**
+     * Set the date of creation.
+     *
+     * @param \Datetime $createdAt
+     *
+     * @return self
+     */
+    public function setCreatedAt(\Datetime $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
     }
 
-    public function getTitle()
+    /**
+     * Get the title.
+     *
+     * @return string
+     */
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    public function setTitle($title)
+    /**
+     * Set the title.
+     *
+     * @param string $title
+     *
+     * @return self
+     */
+    public function setTitle(string $title): self
     {
         $this->title = $title;
+
+        return $this;
     }
 
-    public function getContent()
+    /**
+     * Get the content.
+     *
+     * @return string
+     */
+    public function getContent(): ?string
     {
         return $this->content;
     }
 
-    public function setContent($content)
+    /**
+     * Set the content.
+     *
+     * @param string $content
+     *
+     * @return self
+     */
+    public function setContent(string $content): self
     {
         $this->content = $content;
+
+        return $this;
     }
 
-    public function isDone()
+    /**
+     * Set the task is done.
+     *
+     * @return bool
+     */
+    public function isDone(): bool
     {
         return $this->isDone;
     }
 
-    public function toggle($flag)
+    /**
+     * Toggle the task.
+     *
+     * @param bool $flag
+     *
+     * @return self
+     */
+    public function toggle(bool $flag): self
     {
         $this->isDone = $flag;
+
+        return $this;
+    }
+
+    /**
+     * Set isDone.
+     *
+     * @param bool $isDone
+     *
+     * @return Task
+     */
+    public function setIsDone($isDone)
+    {
+        $this->isDone = $isDone;
+
+        return $this;
+    }
+
+    /**
+     * Get isDone.
+     *
+     * @return bool
+     */
+    public function getIsDone()
+    {
+        return $this->isDone;
+    }
+
+    /**
+     * Set user.
+     *
+     * @param User|null $user
+     *
+     * @return Task
+     */
+    public function setUser(User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user.
+     *
+     * @return User|null
+     */
+    public function getUser(): User
+    {
+        // If there is no user, we create one
+        if (!$this->user) {
+            $this->user = new User();
+            $this->user->setUsername('Anonyme');
+        }
+
+        return $this->user;
     }
 }
