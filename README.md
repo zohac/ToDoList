@@ -3,6 +3,7 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/b80f4876ec6c4eb4883e6820f3736191)](https://www.codacy.com/app/zohac/ToDoList?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=zohac/ToDoList&amp;utm_campaign=Badge_Grade)
 [![Codacy Badge](https://api.codacy.com/project/badge/Coverage/b80f4876ec6c4eb4883e6820f3736191)](https://www.codacy.com/app/zohac/ToDoList?utm_source=github.com&utm_medium=referral&utm_content=zohac/ToDoList&utm_campaign=Badge_Coverage)
 [![Build Status](https://travis-ci.org/zohac/ToDoList.svg?branch=develop)](https://travis-ci.org/zohac/ToDoList)
+[![Maintainability](https://api.codeclimate.com/v1/badges/b2597a83564371a9358b/maintainability)](https://codeclimate.com/github/zohac/ToDoList/maintainability)
 
 ---
 
