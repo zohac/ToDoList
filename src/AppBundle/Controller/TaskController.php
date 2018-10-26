@@ -9,11 +9,15 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class TaskController extends Controller
 {
     /**
-     * @Route("/tasks", name="task_list")
+     * @Route("/tasks",
+     *      name="task_list",
+     *      methods={"GET"}
+     * )
      */
     public function listAction(ObjectManager $entityManager)
     {
@@ -23,7 +27,10 @@ class TaskController extends Controller
     }
 
     /**
-     * @Route("/tasks/create", name="task_create")
+     * @Route("/tasks/create",
+     *      name="task_create",
+     *      methods={"GET", "POST"}
+     * )
      */
     public function createAction(Request $request, UserInterface $user, ObjectManager $entityManager)
     {
@@ -47,7 +54,11 @@ class TaskController extends Controller
     }
 
     /**
-     * @Route("/tasks/{id}/edit", name="task_edit")
+     * @Route("/tasks/{id}/edit",
+     *      name="task_edit",
+     *      methods={"GET", "POST"},
+     *      requirements={"id"="\d+"}
+     * )
      */
     public function editAction(Task $task, Request $request)
     {
@@ -70,7 +81,11 @@ class TaskController extends Controller
     }
 
     /**
-     * @Route("/tasks/{id}/toggle", name="task_toggle")
+     * @Route("/tasks/{id}/toggle",
+     *      name="task_toggle",
+     *      methods={"GET"},
+     *      requirements={"id"="\d+"}
+     * )
      */
     public function toggleTaskAction(Task $task)
     {
@@ -83,16 +98,29 @@ class TaskController extends Controller
     }
 
     /**
-     * @Route("/tasks/{id}/delete", name="task_delete")
+     * Delete a task.
+     *
+     * @Route("/tasks/{id}/delete",
+     *      name="task_delete",
+     *      methods={"Get"},
+     *      requirements={"id"="\d+"}
+     * )
+     *
+     * @Security(
+     *      "task.isAuthor(user)",
+     *      message="Vous n'avez pas les droits pour supprimer cette tâche!"
+     * )
      */
-    public function deleteTaskAction(Task $task)
+    public function deleteTaskAction(Task $task, ObjectManager $entityManager)
     {
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($task);
-        $em->flush();
+        // Remove the task
+        $entityManager->remove($task);
+        $entityManager->flush();
 
+        // Add the flash message
         $this->addFlash('success', 'La tâche a bien été supprimée.');
 
+        // Redirect
         return $this->redirectToRoute('task_list');
     }
 }
