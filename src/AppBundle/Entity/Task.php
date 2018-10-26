@@ -45,7 +45,7 @@ class Task
     /**
      * @var User|null
      *
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
      */
     private $user;
 
@@ -189,5 +189,22 @@ class Task
         }
 
         return $this->user;
+    }
+
+    /**
+     * Tasks attached to the "anonymous" user can only be deleted by users with the administrator role (ROLE_ADMIN).
+     * Tasks can only be deleted by users who have created the tasks in question.
+     *
+     * @param User $user
+     *
+     * @return bool
+     */
+    public function isAuthor(User $user): bool
+    {
+        if ($user == $this->getUser()) {
+            return true;
+        }
+
+        return false;
     }
 }
