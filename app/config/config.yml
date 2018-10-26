@@ -71,5 +71,12 @@ swiftmailer:
 sensio_framework_extra:
     router:
         annotations: false
+    request:
+        converters: true
+        auto_convert: true
     view:
+        annotations: true
+    cache:
+        annotations: true
+    security:
         annotations: true
