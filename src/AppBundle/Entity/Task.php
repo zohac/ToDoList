@@ -201,7 +201,14 @@ class Task
      */
     public function isAuthor(User $user): bool
     {
-        if ($user == $this->getUser()) {
+        // If the user have created the tasks or
+        // The Tasks attached to the "anonymous" user and user have the administrator role (ROLE_ADMIN).
+        if ($user == $this->getUser() ||
+            (
+                'ROLE_ADMIN' == $user->getRoles()[0] &&
+                'Anonyme' == $this->getUser()->getUsername()
+            )
+        ) {
             return true;
         }
 
