@@ -24,6 +24,13 @@ class LoadFixtures extends AbstractFixture
     private $encoder;
 
     /**
+     * An instance of ObjectManager.
+     *
+     * @var ObjectManager $entityManager
+     */
+    private $entityManager;
+
+    /**
      * Constructor.
      *
      * @param UserPasswordEncoderInterface $encoder
@@ -36,10 +43,12 @@ class LoadFixtures extends AbstractFixture
     /**
      * Load the fixture.
      *
-     * @param ObjectManager $manager
+     * @param ObjectManager $entityManager
      */
     public function load(ObjectManager $entityManager)
     {
+        $this->entityManager = $entityManager;
+
         // Add Users
         $users = Yaml::parseFile('src/AppBundle/DataFixtures/Data/User.yml');
         foreach ($users as $userData) {
@@ -51,7 +60,7 @@ class LoadFixtures extends AbstractFixture
         $tasks = Yaml::parseFile('src/AppBundle/DataFixtures/Data/Task.yml');
         foreach ($tasks as $taskData) {
             // Persist Task
-            $entityManager->persist($this->loadUser($taskData));
+            $entityManager->persist($this->loadTask($taskData));
         }
 
         // Save the entities
@@ -95,12 +104,12 @@ class LoadFixtures extends AbstractFixture
         // Create a task
         $task = new Task();
         // Set the title
-        $task->setTitle($userData['title']);
+        $task->setTitle($taskData['title']);
         // Set the content
-        $task->setContent($userData['content']);
+        $task->setContent($taskData['content']);
         // Set the title
         if (isset($taskData['user'])) {
-            $user = $entityManager->getRepository(User::class)->findByUsername($taskData('user'));
+            $user = $this->entityManager->getRepository(User::class)->findOneByUsername($taskData['user']);
             $task->setUser($user);
         }
         // Return the task
