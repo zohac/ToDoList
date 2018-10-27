@@ -11,22 +11,6 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 class DefaultControllerTest extends WebTestCase
 {
     /**
-     * Test the route with no authentication.
-     */
-    public function testWithoutAuthenticationIndex()
-    {
-        // Create a client
-        $client = static::createClient();
-
-        // Request the route
-        $client->request('GET', '/');
-
-        // Test
-        $this->assertEquals(Response::HTTP_FOUND, $client->getResponse()->getStatusCode());
-        $this->assertTrue($client->getResponse()->isRedirect());
-    }
-
-    /**
      * Test the route with an authenticated user.
      */
     public function testWithAuthenticationIndex()

@@ -86,7 +86,7 @@ class TaskControllerTest extends WebTestCase
         // Get a task
         $task = $entityManager->getRepository(Task::class)->findOneByTitle('A test title');
         // Edit the route
-        $route = '/tasks/' . $task->getId() . '/edit';
+        $route = '/tasks/'.$task->getId().'/edit';
 
         // Request the route
         $crawler = $client->request('GET', $route);
@@ -128,8 +128,7 @@ class TaskControllerTest extends WebTestCase
         // Get a task
         $task = $entityManager->getRepository(Task::class)->findOneByTitle('A modified title test');
         // Edit the route
-        $route = '/tasks/' . $task->getId() . '/toggle';
-
+        $route = '/tasks/'.$task->getId().'/toggle';
 
         // Test
         $this->assertFalse($task->isDone());
@@ -158,7 +157,7 @@ class TaskControllerTest extends WebTestCase
         // Get a task
         $task = $entityManager->getRepository(Task::class)->findOneByTitle('A modified title test');
         // Edit the route
-        $route = '/tasks/' . $task->getId() . '/delete';
+        $route = '/tasks/'.$task->getId().'/delete';
         // Request the route
         $client->request('GET', $route);
 
