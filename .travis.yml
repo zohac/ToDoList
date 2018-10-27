@@ -18,7 +18,7 @@ before_install:
 before_script:
   - curl -s http://getcomposer.org/installer | php
   - php composer.phar install -n
-  - php bin/console doctrine:fixtures:load
+  - php bin/console doctrine:fixtures:load -n
 
 script:
   - php vendor/bin/simple-phpunit --coverage-clover build/logs/clover.xml
