@@ -9,12 +9,13 @@ use AppBundle\Entity\User;
 use Symfony\Component\Yaml\Yaml;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\FixtureInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Load Fixtures in DB.
  */
-class LoadFixtures extends AbstractFixture
+class LoadFixtures extends AbstractFixture implements FixtureInterface
 {
     /**
      * An instance of UserPasswordEncoderInterface.
