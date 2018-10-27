@@ -54,6 +54,8 @@ class LoadFixtures extends AbstractFixture
         foreach ($users as $userData) {
             // Persist User
             $entityManager->persist($this->loadUser($userData));
+            // Save the entities
+            $entityManager->flush();
         }
 
         // Add Tasks
@@ -61,10 +63,9 @@ class LoadFixtures extends AbstractFixture
         foreach ($tasks as $taskData) {
             // Persist Task
             $entityManager->persist($this->loadTask($taskData));
+            // Save the entities
+            $entityManager->flush();
         }
-
-        // Save the entities
-        $entityManager->flush();
     }
 
     /**
