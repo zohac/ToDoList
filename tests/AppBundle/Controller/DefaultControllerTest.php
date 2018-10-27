@@ -21,8 +21,9 @@ class DefaultControllerTest extends WebTestCase
         // Request the route
         $client->request('GET', '/');
 
-        // Test assert
+        // Test
         $this->assertEquals(Response::HTTP_FOUND, $client->getResponse()->getStatusCode());
+        $this->assertTrue($client->getResponse()->isRedirect());
     }
 
     /**
@@ -39,7 +40,8 @@ class DefaultControllerTest extends WebTestCase
         // Request the route
         $client->request('GET', '/');
 
-        // Test assert
+        // Test
+        $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertEquals(Response::HTTP_OK, $client->getResponse()->getStatusCode());
     }
 }

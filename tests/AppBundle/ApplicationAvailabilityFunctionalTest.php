@@ -43,6 +43,7 @@ class ApplicationAvailabilityFunctionalTest extends WebTestCase
 
         // Test the status code
         $this->assertEquals(Response::HTTP_FOUND, $client->getResponse()->getStatusCode());
+        $this->assertTrue($client->getResponse()->isRedirect());
     }
 
     /**
