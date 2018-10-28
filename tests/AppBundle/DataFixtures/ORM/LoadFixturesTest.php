@@ -3,8 +3,9 @@
 namespace Tests\AppBundle;
 
 use AppBundle\Entity\User;
+use AppBundle\Repository\UserRepository;
 use AppBundle\DataFixtures\ORM\LoadFixtures;
-use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
@@ -12,23 +13,75 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 class LoadFixturesTest extends WebTestCase
 {
+    /**
+     * @var \Doctrine\Common\Persistence\ObjectManager
+     */
+    private $entityManager;
+
+    /**
+     * @var UserRepository
+     */
+    private $userRepository;
+
+    /**
+     * Initialise variables.
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+
+        // Now, mock the repository so it returns the mock of the user
+        $this->userRepository = $this->createMock(UserRepository::class);
+
+        // Last, mock the EntityManager to return the mock of the repository
+        $this->entityManager = $this->createMock(ObjectManager::class);
+    }
+
+    /**
+     * Test loadFixtures.
+     */
     public function testLoad()
     {
+        // Define findOneBy method
+        $this->userRepository
+            ->expects($this->any())
+            ->method('findOneBy')
+            ->willReturn(new User());
+
+        // Define getRepository method
+        $this->entityManager
+            ->expects($this->any())
+            ->method('getRepository')
+            ->willReturn($this->userRepository);
+
+        // Define persist method
+        $this->entityManager
+            ->expects($this->any())
+            ->method('persist');
+
+        // Define flush method
+        $this->entityManager
+            ->expects($this->any())
+            ->method('flush');
+
+        // Create client
         $client = static::createClient();
 
         // Get the entityManager
-        $entityManager = $client->getContainer()->get('doctrine.orm.entity_manager');
         $passwordEncoder = $client->getContainer()->get('security.password_encoder');
 
-        $purger = new ORMPurger($entityManager);
-        $purger->purge();
-
         $fixtures = new LoadFixtures($passwordEncoder);
-        $fixtures->load($entityManager);
+        $fixtures->load($this->entityManager);
+    }
 
-        // Get a user
-        $user = $entityManager->getRepository(User::class)->findOneByUsername('user1');
+    /**
+     * Unset variables.
+     */
+    protected function tearDown()
+    {
+        parent::tearDown();
 
-        $this->assertInstanceOf(User::class, $user);
+        // avoid memory leaks
+        $this->entityManager = null;
     }
 }

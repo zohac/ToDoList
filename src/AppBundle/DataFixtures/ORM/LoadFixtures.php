@@ -27,7 +27,7 @@ class LoadFixtures extends AbstractFixture implements FixtureInterface
     /**
      * An instance of ObjectManager.
      *
-     * @var ObjectManager $entityManager
+     * @var ObjectManager
      */
     private $entityManager;
 
@@ -111,7 +111,7 @@ class LoadFixtures extends AbstractFixture implements FixtureInterface
         $task->setContent($taskData['content']);
         // Set the title
         if (isset($taskData['user'])) {
-            $user = $this->entityManager->getRepository(User::class)->findOneByUsername($taskData['user']);
+            $user = $this->entityManager->getRepository(User::class)->findOneBy(['username' => $taskData['user']]);
             $task->setUser($user);
         }
         // Return the task
