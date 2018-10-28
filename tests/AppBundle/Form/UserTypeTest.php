@@ -23,7 +23,7 @@ class UserTypeTest extends TypeTestCase
         $formData = [
             'username' => 'test',
             'email' => 'test@test.fr',
-            'password' => [
+            'plainPassword' => [
                 'first' => 'aGreatPassword',
                 'second' => 'aGreatPassword',
             ],
@@ -37,7 +37,7 @@ class UserTypeTest extends TypeTestCase
         $user = new User();
         $user->setUsername('test');
         $user->setEmail('test@test.fr');
-        $user->setPassword('aGreatPassword');
+        $user->setPlainPassword('aGreatPassword');
         $user->setRoles(['ROLE_USER']);
 
         // submit the data to the form directly
