@@ -9,12 +9,13 @@ use AppBundle\Entity\User;
 use Symfony\Component\Yaml\Yaml;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\FixtureInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Load Fixtures in DB.
  */
-class LoadFixtures extends AbstractFixture
+class LoadFixtures extends AbstractFixture implements FixtureInterface
 {
     /**
      * An instance of UserPasswordEncoderInterface.
@@ -22,6 +23,13 @@ class LoadFixtures extends AbstractFixture
      * @var UserPasswordEncoderInterface
      */
     private $encoder;
+
+    /**
+     * An instance of ObjectManager.
+     *
+     * @var ObjectManager
+     */
+    private $entityManager;
 
     /**
      * Constructor.
@@ -36,26 +44,29 @@ class LoadFixtures extends AbstractFixture
     /**
      * Load the fixture.
      *
-     * @param ObjectManager $manager
+     * @param ObjectManager $entityManager
      */
     public function load(ObjectManager $entityManager)
     {
+        $this->entityManager = $entityManager;
+
         // Add Users
         $users = Yaml::parseFile('src/AppBundle/DataFixtures/Data/User.yml');
         foreach ($users as $userData) {
             // Persist User
             $entityManager->persist($this->loadUser($userData));
+            // Save the entities
+            $entityManager->flush();
         }
 
         // Add Tasks
         $tasks = Yaml::parseFile('src/AppBundle/DataFixtures/Data/Task.yml');
         foreach ($tasks as $taskData) {
             // Persist Task
-            $entityManager->persist($this->loadUser($taskData));
+            $entityManager->persist($this->loadTask($taskData));
+            // Save the entities
+            $entityManager->flush();
         }
-
-        // Save the entities
-        $entityManager->flush();
     }
 
     /**
@@ -95,12 +106,12 @@ class LoadFixtures extends AbstractFixture
         // Create a task
         $task = new Task();
         // Set the title
-        $task->setTitle($userData['title']);
+        $task->setTitle($taskData['title']);
         // Set the content
-        $task->setContent($userData['content']);
+        $task->setContent($taskData['content']);
         // Set the title
         if (isset($taskData['user'])) {
-            $user = $entityManager->getRepository(User::class)->findByUsername($taskData('user'));
+            $user = $this->entityManager->getRepository(User::class)->findOneBy(['username' => $taskData['user']]);
             $task->setUser($user);
         }
         // Return the task

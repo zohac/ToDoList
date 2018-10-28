@@ -1,6 +1,7 @@
 {
     "name": "saro0h/to-do-list",
     "license": "proprietary",
+    "description": "A ToDo List",
     "type": "project",
     "autoload": {
         "psr-4": {
@@ -32,8 +33,9 @@
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
         "symfony/phpunit-bridge": "^3.0",
-        "codacy/coverage": "^1.4",
-        "doctrine/doctrine-fixtures-bundle": "^3.0"
+        "doctrine/doctrine-fixtures-bundle": "^3.0",
+        "symfony/browser-kit": "^4.1",
+        "symfony/css-selector": "^4.1"
     },
     "scripts": {
         "symfony-scripts": [
