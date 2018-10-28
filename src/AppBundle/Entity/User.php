@@ -56,6 +56,15 @@ class User implements UserInterface
     private $roles;
 
     /**
+     * @Assert\Length(max=4096)
+     * @Assert\Regex(
+     *      pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{6,}$/",
+     *      message="Le mot de passe doit comporter au moins 6 caractères, minuscule, majuscule et numérique."
+     * )
+     */
+    private $plainPassword;
+
+    /**
      * Get the Id.
      *
      * @return int
@@ -164,9 +173,34 @@ class User implements UserInterface
     }
 
     /**
+     * Get plainPassword.
+     *
+     * @return string|null
+     */
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * Set PlainPassword.
+     *
+     * @param string $password
+     *
+     * @return User
+     */
+    public function setPlainPassword(string $password): User
+    {
+        $this->plainPassword = $password;
+
+        return $this;
+    }
+
+    /**
      * Removes sensitive data from the user.
      */
     public function eraseCredentials()
     {
+        $this->plainPassword = null;
     }
 }

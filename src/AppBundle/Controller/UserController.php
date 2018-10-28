@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
 use AppBundle\Form\UserType;
+use AppBundle\Form\UserUpdateType;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
@@ -47,7 +48,7 @@ class UserController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPassword());
+            $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
 
             $em->persist($user);
@@ -75,13 +76,15 @@ class UserController extends Controller
      */
     public function editAction(User $user, Request $request)
     {
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(UserUpdateType::class, $user);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPassword());
-            $user->setPassword($password);
+            if (null !== $user->getPlainPassword()) {
+                $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPlainPassword());
+                $user->setPassword($password);
+            }
 
             $this->getDoctrine()->getManager()->flush();
 

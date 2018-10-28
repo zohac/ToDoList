@@ -57,8 +57,8 @@ class UserControllerTest extends WebTestCase
 
         // set some values
         $form['user[username]'] = 'userTest';
-        $form['user[password][first]'] = 'Aa@123';
-        $form['user[password][second]'] = 'Aa@123';
+        $form['user[plainPassword][first]'] = 'Aa@123';
+        $form['user[plainPassword][second]'] = 'Aa@123';
         $form['user[email]'] = 'userTest@test.com';
         $form['user[roles]'] = 'ROLE_USER';
 
@@ -102,11 +102,9 @@ class UserControllerTest extends WebTestCase
         $form = $crawler->selectButton('Modifier')->form();
 
         // set some values
-        $form['user[username]'] = 'userTestModified';
-        $form['user[password][first]'] = 'Aa@123';
-        $form['user[password][second]'] = 'Aa@123';
-        $form['user[email]'] = 'userTest@test.com';
-        $form['user[roles]'] = 'ROLE_USER';
+        $form['user_update[username]'] = 'userTestModified';
+        $form['user_update[email]'] = 'userTest@test.com';
+        $form['user_update[roles]'] = 'ROLE_USER';
 
         // submit the form
         $crawler = $client->submit($form);

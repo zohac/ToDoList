@@ -18,7 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 /**
  * A form to add a user.
  */
-class UserType extends AbstractType
+class UserUpdateType extends AbstractType
 {
     /**
      * Build the form.
@@ -39,7 +39,6 @@ class UserType extends AbstractType
                         'max' => 25,
                         'maxMessage' => "Le nom d'utilisateur ne peu comporter que {{ limit }} caractères",
                     ]),
-                    new NotBlank(),
                 ],
                 'label' => "Nom d'utilisateur",
             ])
@@ -52,10 +51,9 @@ class UserType extends AbstractType
                         'message' => 'Le mot de passe doit comporter au moins 6 caractères,
                         minuscule, majuscule et numérique et caractère spéciaux.',
                     ]),
-                    new NotBlank(),
                 ],
                 'invalid_message' => 'Les deux mots de passe doivent correspondre.',
-                'required' => true,
+                'required' => false,
                 'first_options' => ['label' => 'Mot de passe'],
                 'second_options' => ['label' => 'Tapez le mot de passe à nouveau'],
             ])
@@ -63,7 +61,6 @@ class UserType extends AbstractType
                 'constraints' => [
                     new Length(['max' => 60]),
                     new Email(),
-                    new NotBlank(),
                 ],
                 'label' => 'Adresse email',
             ])
