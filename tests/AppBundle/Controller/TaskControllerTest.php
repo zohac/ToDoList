@@ -144,6 +144,34 @@ class TaskControllerTest extends WebTestCase
     /**
      * Test the route /tasks/{id}/delete with an authenticated user.
      */
+    public function testDeleteWithRoleUserAction()
+    {
+        // Create an authenticated client
+        $client = static::createClient([], [
+            'PHP_AUTH_USER' => 'user2',
+            'PHP_AUTH_PW' => 'Aa@123',
+        ]);
+
+        // Get the entityManager
+        $entityManager = $client->getContainer()->get('doctrine.orm.entity_manager');
+        // Get a task
+        $task = $entityManager->getRepository(Task::class)->findOneByTitle('A modified title test');
+        // Edit the route
+        $route = '/tasks/'.$task->getId().'/delete';
+        // Request the route
+        $client->request('GET', $route);
+
+        // Get a task
+        $task = $entityManager->getRepository(Task::class)->findOneByTitle('A modified title test');
+
+        // Test
+        $this->assertInstanceOf(Task::class, $task);
+        $this->assertEquals(Response::HTTP_FORBIDDEN, $client->getResponse()->getStatusCode());
+    }
+
+    /**
+     * Test the route /tasks/{id}/delete with an authenticated user.
+     */
     public function testDeleteAction()
     {
         // Create an authenticated client
