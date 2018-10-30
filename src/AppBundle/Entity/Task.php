@@ -203,10 +203,10 @@ class Task
     {
         // If the user have created the tasks or
         // The Tasks attached to the "anonymous" user and user have the administrator role (ROLE_ADMIN).
-        if ($user == $this->getUser() ||
+        if ($user === $this->getUser() ||
             (
-                'ROLE_ADMIN' == $user->getRoles()[0] &&
-                'Anonyme' == $this->getUser()->getUsername()
+                'ROLE_ADMIN' === $user->getRoles()[0] &&
+                'Anonyme' === $this->getUser()->getUsername()
             )
         ) {
             return true;
