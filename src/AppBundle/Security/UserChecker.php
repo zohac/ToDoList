@@ -4,20 +4,37 @@ namespace AppBundle\Security;
 
 use AppBundle\Entity\User;
 use Doctrine\Common\Persistence\ObjectManager;
-use AppBundle\Exception\AccountDeletedException;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\User\UserCheckerInterface;
-use Symfony\Component\Security\Core\Exception\AccountExpiredException;
+use Symfony\Component\Security\Core\User\UserChecker as BaseUserChecker;
 
-class UserChecker implements UserCheckerInterface
+/**
+ * Check if the user does not have a role.
+ */
+class UserChecker extends BaseUserChecker
 {
+    /**
+     * An instance of ObjectManager.
+     *
+     * @var ObjectManager
+     */
     private $entityManager;
 
+    /**
+     * Constructor.
+     *
+     * @param ObjectManager $entityManager
+     */
     public function __construct(ObjectManager $entityManager)
     {
         $this->entityManager = $entityManager;
     }
 
+    /**
+     * Check if the user does not have a role,
+     * we give him one.
+     *
+     * @param UserInterface $user
+     */
     public function checkPreAuth(UserInterface $user)
     {
         if (!$user instanceof User) {
@@ -26,29 +43,25 @@ class UserChecker implements UserCheckerInterface
 
         // Verification of the user's role
         if (empty($user->getRoles())) {
-            // If the user does not have a role, we give him a role
+            // If the user does not have a role, we give him one
             $user->setRoles(['ROLE_USER']);
 
-            //var_dump($this->entityManager); die;
             $this->entityManager->persist($user);
             $this->entityManager->flush();
         }
 
-        // user is deleted, show a generic Account Not Found message.
-        if ($user->isDeleted()) {
-            throw new AccountDeletedException('...');
-        }
+        parent::checkPreAuth($user);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function checkPostAuth(UserInterface $user)
     {
         if (!$user instanceof User) {
             return;
         }
 
-        // user account is expired, the user may be notified
-        if ($user->isExpired()) {
-            throw new AccountExpiredException('...');
-        }
+        parent::checkPostAuth($user);
     }
 }
