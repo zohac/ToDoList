@@ -2,11 +2,11 @@
 
 En tant que contributeur, voici les lignes directrices que nous aimerions que vous suiviez :
 
-* [Question ou Problème](#question-ou-probleme)
+* [Question ou Problème](#question-ou-problème)
 * [Issues et Bugs](#issues-et-bugs)
-* [Demande de fonctionnalité](#demande-de-fonctionnalite)
+* [Demande de fonctionnalité](#demande-de-fonctionnalité)
 * [Guide de soumission](#guide-de-soumission)
-* [Règle de Codage](#regle-de-codage)
+* [Règle de Codage](#règle-de-codage)
 * [Guide des messages de Commit](#guide-des-messages-de-commit)
 
 ## Question ou Problème
@@ -33,5 +33,12 @@ Vous pouvez demander une nouvelle fonctionnalité en soumettant une [Issue](http
 ### Soumettre une Pull Request
 
 ## Règle de Codage
+
+Pour assurer la cohérence du code source, gardez ces règles à l'esprit lorsque vous travaillez :
+
+* Toutes les fonctionnalités ou corrections de bogues doivent être testées par un ou plusieurs tests (tests unitaires et/ou fonctionnels).
+* Nous respectons le guide de style [PSR1](https://www.php-fig.org/psr/psr-1), [PSR2](https://www.php-fig.org/psr/psr-2/) et [Symfony](https://symfony.com/doc/current/contributing/code/standards.html). Veuillez utiliser l'outil [php-cs-fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer) pour vérifier votre code.
+
+``
 
 ## Guide des messages de Commit
