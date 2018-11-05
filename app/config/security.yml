@@ -18,7 +18,7 @@ security:
             security: false
 
         main:
-            anonymous: ~
+            anonymous: true
             pattern: ^/
             user_checker: AppBundle\Security\UserChecker
             form_login:
@@ -31,5 +31,4 @@ security:
 
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/users, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: ROLE_USER }
