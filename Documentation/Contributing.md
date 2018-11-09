@@ -52,29 +52,40 @@ Malheureusement, nous ne sommes pas en mesure d'enquêter / corriger les bugs sa
 Avant de soumettre votre Pull Request (PR), tenez compte des lignes directrices suivantes :
 
 1. Recherchez sur GitHub pour une PR ouverte ou fermée qui se rapporte à votre soumission. Vous ne voulez pas dupliquer l'effort.
+
 2. Assurez-vous qu'une Issue décrit le problème que vous corrigez ou documente la conception de la fonctionnalité que vous souhaitez ajouter. En discutant de la conception à l'avance, nous nous assurons d'être prêts à accepter votre travail.
+
 3. Fork du repositorie ToDo List.
+
 4. Faites vos changements dans une nouvelle branche git :
     ```bash
     git checkout -b hotfix/My-Issue master
     ```
+
 5. Créez votre patch, y compris les tests.
+
 6. Suivez nos [règles de codage](#règle-de-codage).
+
 7. Exécutez la suite de tests complète, et assurez-vous que tous les tests réussissent.
+
 8. "Commit" vos modifications à l'aide d'un message de validation descriptif qui respecte les conventions de notre [guide des messages de Commit](#guide-des-messages-de-commit).
     ```bash
     git commit -a
     ```
+
 9. Poussez votre branche vers GitHub :
     ```bash
     git push origin fix/My-Issue
     ```
+
 10. Dans GitHub, envoyez une Pull Request vers `ToDoList:master`.
 
 Si nous suggérons des changements, alors :
 
 * Effectuez les mises à jour nécessaires.
+
 * Ré-exécutez les suites de tests pour vous assurer que les tests sont toujours valide.
+
 * Rebasez votre branche et forcez le push vers votre dépôt GitHub (cela mettra à jour votre Pull Request) :
     ```bash
     git rebase master -i
@@ -128,6 +139,7 @@ Les messages de Commit sont structurés de la manière suivante:
 Le scope est facultatif.
 
 1. **Type** :
+
     * **build** : Changements qui affectent les dépendances externes (par exemple : composer require/remove etc...)
     * **ci** : Modifications apportées aux fichiers de configuration (exemples de portée : Travis, Codacy, etc...)
     * **doc** : Modifications de la documentation uniquement
@@ -137,7 +149,9 @@ Le scope est facultatif.
     * **refactor** : Un changement de code qui ne corrige pas un bogue et n'ajoute pas de fonctionnalité
     * **style** : Changements qui n'affectent pas la signification du code (espace blanc, formatage, points-virgules manquants, etc.)
     * **test** : Ajout de tests manquants ou correction de tests existants
+
 2. **Scope** : (facultatif)
+
     * **form** : Changement affectant les formulaires
     * **controller** : Changement affectant les controllers
     * **config** : Changement affectant les fichiers de configuration
@@ -148,7 +162,9 @@ Le scope est facultatif.
     * **repo** : Changement affectant les repository
     * **listener** : Changement affectant les listeners
     * **command** : Changement affectant les lignes de commandes php(cli)
+
 3. **Description** : Le sujet contient une description succincte du changement
+
     * utiliser l'impératif du présent : "change" pas "changed" ni "changes"
     * ne mettez pas la première lettre en majuscule
     * pas de point (.) à la fin
