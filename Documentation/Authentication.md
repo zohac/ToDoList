@@ -22,14 +22,23 @@ L'application ToDo List utilise le firewalls `main`.
 Détails des clés utilisées:
 
 * **anonymous** : Défini si l'on peut-être connecté comme utilisateur ananyme sur l'application.
+
 * **pattern** : Une regex définissant les URL filtrées. Ici toutes les URL sont filtrés.
+
 * **user_checker** : Une classe qui vérifie l'utilisateur avant l'authentification au moment du login.
+
 * **form_login** :
+
   * **login_path** : Le nom de la route utilisée pour se connecter.
+
   * **check_path** : Le nom de la route utilisée pour vérifier le couple utilisateur/mot de passe.
+
   * **always_use_default_target_path** : Si à `true`, les utilisateurs sont toujours redirigés vers le chemin cible par défaut, quelle que soit l'URL précédente qui a été stockée dans la session.
+
   * **default_target_path** : L'URL par défaut pour la redirection, si aucune route n'est définis dans la session.
+
 * **logout** : Autorise la déconnexion.
+
 * **logout_on_user_chang**e : Si cette option est cochée, Symfony déclenche une déconnexion lorsque l'utilisateur a changé. Ne pas le faire est obsolète, donc cette option doit être définie sur true pour éviter d'obtenir des messages d'obsolescence.
 
 ```yml
