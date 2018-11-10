@@ -58,6 +58,7 @@ Avant de soumettre votre Pull Request (PR), tenez compte des lignes directrices 
 3. Fork du repositorie ToDo List.
 
 4. Faites vos changements dans une nouvelle branche git :
+
     ```bash
     git checkout -b hotfix/My-Issue master
     ```
@@ -69,11 +70,13 @@ Avant de soumettre votre Pull Request (PR), tenez compte des lignes directrices 
 7. Exécutez la suite de tests complète, et assurez-vous que tous les tests réussissent.
 
 8. "Commit" vos modifications à l'aide d'un message de validation descriptif qui respecte les conventions de notre [guide des messages de Commit](#guide-des-messages-de-commit).
+
     ```bash
     git commit -a
     ```
 
 9. Poussez votre branche vers GitHub :
+
     ```bash
     git push origin fix/My-Issue
     ```
@@ -87,6 +90,7 @@ Si nous suggérons des changements, alors :
 * Ré-exécutez les suites de tests pour vous assurer que les tests sont toujours valide.
 
 * Rebasez votre branche et forcez le push vers votre dépôt GitHub (cela mettra à jour votre Pull Request) :
+
     ```bash
     git rebase master -i
     git push -f
@@ -98,19 +102,26 @@ C'est bon! Merci pour votre contribution!
 
 Vous pouvez supprimer votre branche en toute sécurité :
 
-* Supprimez la branche distante sur GitHub soit via l'interface web de GitHub, soit via votre shell local comme suit :
+* Supprimez la branche distante sur GitHub soit via l'
+
     ```bash
     git push origin --delete fix/My-Issue
     ```
+
 * Basculer la branche maître :
+
     ```bash
     git checkout master -f
     ```
+
 * Supprimer la branche locale :
+
     ```bash
     git branch -D fix/My-Issue
     ```
+
 * Mettez à jour votre branch master avec la dernière version :
+
     ```bash
     git pull --ff upstream master
     ```
