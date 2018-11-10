@@ -19,9 +19,10 @@ On peut configurer autant de firewall que désiré.
 ### 1.1. Configurer l'authentification des utilisateurs
 
 L'application ToDo List utilise le firewalls `main`.
-Détails des clés utilisées:
 
-* **anonymous** : Défini si l'on peut-être connecté comme utilisateur ananyme sur l'application.
+Détails des clés utilisées :
+
+* **anonymous** : Défini si l'on peut-être connecté comme utilisateur anonyme sur l'application.
 
 * **pattern** : Une regex définissant les URL filtrées. Ici toutes les URL sont filtrés.
 
@@ -36,11 +37,11 @@ Détails des clés utilisées:
 
 * **logout** : Autorise la déconnexion.
 
-* **logout_on_user_chang**e : Si cette option est cochée, Symfony déclenche une déconnexion lorsque l'utilisateur a changé. Ne pas le faire est obsolète, donc cette option doit être définie sur true pour éviter d'obtenir des messages d'obsolescence.
+* **logout_on_user_change** : Si cette option est cochée, Symfony déclenche une déconnexion lorsque l'utilisateur change. Ne pas le faire est obsolète, donc cette option doit être définie sur true pour éviter d'obtenir des messages d'obsolescence.
 
 ```yml
         main:
-            anonymous: ~
+            anonymous: true
             pattern: ^/
             user_checker: AppBundle\Security\UserChecker
             form_login:
@@ -80,7 +81,7 @@ Les bibliothèques `bcrypt` ou `argon2i` sont recommendés. `Argon2i` est plus s
         AppBundle\Entity\User: bcrypt
 ```
 
-Différents encoders peuvent-être utilisé sur différente classe.
+Différents encoders peuvent-être utilisé sur différentes classes.
 
 ## 2. Autorisation, accés et rôle utilisateur
 
@@ -96,7 +97,7 @@ Le processus d'autorisation nécessite deux étapes différentes :
 Lorsqu'un utilisateur se connecte, Symfony appelle la méthode `getRoles()` sur l'entité utilisateur pour en déterminer ses rôles.
 Dans notre classe `User`, les rôles sont un tableau qui est stocké en base de données, et chaque utilisateur se voit toujours attribuer au moins un rôle : `ROLE_USER`.
 
-Dans l'application ToDo List, seul deux rôles sont definis :
+Dans l'application ToDo List, seul deux rôles sont définis :
 
 * ROLE_USER
 * ROLE_ADMIN
@@ -111,7 +112,7 @@ Le rôle admin possède les droits du rôle User. La hiérarchisation des rôle 
 
 ### 2.2. Ajout de code pour restreindre un accés
 
-Il y a deux façons de refuser l'accès à quelque chose :
+Il y a deux façons de refuser l'accès à une ressource :
 
 1. La clé `access_control` dans security.yml vous permet de protéger les modèles d'URL (par exemple /admin/*). C'est facile, mais moins flexible.
 2. Dans nos contrôleur (ou autre code).
@@ -132,7 +133,7 @@ En revanche, toutes les autres URL, nécessitent au minimun le `ROLE_USER`.
 
 #### 2.2.2 Sécuriser les controllers
 
-L'application ToDo List utilise le bundle `SensioFrameworkExtraBundle`, et nous utilisons les annotations ([comme recommandé par Symfony](https://symfony.com/doc/3.4/best_practices/security.html#the-security-annotation])) pour sécuriser nos controllers.
+L'application ToDo List utilise le bundle `SensioFrameworkExtraBundle`, et nous utilisons les annotations ([comme recommandé par Symfony](https://symfony.com/doc/3.4/best_practices/security.html#the-security-annotation)) pour sécuriser nos controllers.
 
 ```php
 // AppBundle\Controller\UserController.php
