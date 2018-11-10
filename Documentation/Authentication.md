@@ -31,9 +31,7 @@ Détails des clés utilisées:
 
   * **login_path** : Le nom de la route utilisée pour se connecter.
   * **check_path** : Le nom de la route utilisée pour vérifier le couple utilisateur/mot de passe.
-
   * **always_use_default_target_path** : Si à `true`, les utilisateurs sont toujours redirigés vers le chemin cible par défaut, quelle que soit l'URL précédente qui a été stockée dans la session.
-
   * **default_target_path** : L'URL par défaut pour la redirection, si aucune route n'est définis dans la session.
 
 * **logout** : Autorise la déconnexion.
