@@ -1,4 +1,8 @@
 security:
+    role_hierarchy:
+        # Admin inherits user rights
+        ROLE_ADMIN:       [ROLE_USER]
+
     encoders:
         AppBundle\Entity\User: bcrypt
 
@@ -14,16 +18,17 @@ security:
             security: false
 
         main:
-            anonymous: ~
+            anonymous: true
             pattern: ^/
+            user_checker: AppBundle\Security\UserChecker
             form_login:
                 login_path: login
                 check_path: login_check
                 always_use_default_target_path:  true
                 default_target_path:  /
             logout: ~
+            logout_on_user_change: true
 
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/users, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: ROLE_USER }

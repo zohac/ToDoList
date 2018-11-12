@@ -1,0 +1,27 @@
+0 :
+    username : user1
+    email : user1@test.com
+    password : Aa@123
+    roles : { 0 : ROLE_ADMIN }
+1 :
+    username : user2
+    email : user2@test.com
+    password : Aa@123
+    roles : { 0 : ROLE_USER }
+2 :
+    username : user3
+    email : user3@test.com
+    password : Aa@123
+    roles : { 0 : ROLE_USER }
+3 :
+    username : user4
+    email : user4@test.com
+    password : Aa@123
+4 :
+    username : user5
+    email : user5@test.com
+    password : Aa@123
+5 :
+    username : user6
+    email : user6@test.com
+    password : Aa@123

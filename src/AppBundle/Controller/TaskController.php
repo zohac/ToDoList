@@ -4,35 +4,46 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Task;
 use AppBundle\Form\TaskType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class TaskController extends Controller
 {
     /**
-     * @Route("/tasks", name="task_list")
+     * @Route("/tasks",
+     *      name="task_list",
+     *      methods={"GET"}
+     * )
      */
-    public function listAction()
+    public function listAction(ObjectManager $entityManager)
     {
-        return $this->render('task/list.html.twig', ['tasks' => $this->getDoctrine()->getRepository('AppBundle:Task')->findAll()]);
+        $tasks = $entityManager->getRepository(Task::class)->findAllWhithAllEntities();
+
+        return $this->render('task/list.html.twig', ['tasks' => $tasks]);
     }
 
     /**
-     * @Route("/tasks/create", name="task_create")
+     * @Route("/tasks/create",
+     *      name="task_create",
+     *      methods={"GET", "POST"}
+     * )
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request, UserInterface $user, ObjectManager $entityManager)
     {
         $task = new Task();
         $form = $this->createForm(TaskType::class, $task);
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $task->setUser($user);
 
-            $em->persist($task);
-            $em->flush();
+            $entityManager->persist($task);
+            $entityManager->flush();
 
             $this->addFlash('success', 'La tâche a été bien été ajoutée.');
 
@@ -43,7 +54,11 @@ class TaskController extends Controller
     }
 
     /**
-     * @Route("/tasks/{id}/edit", name="task_edit")
+     * @Route("/tasks/{id}/edit",
+     *      name="task_edit",
+     *      methods={"GET", "POST"},
+     *      requirements={"id"="\d+"}
+     * )
      */
     public function editAction(Task $task, Request $request)
     {
@@ -51,7 +66,7 @@ class TaskController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
             $this->addFlash('success', 'La tâche a bien été modifiée.');
@@ -66,7 +81,11 @@ class TaskController extends Controller
     }
 
     /**
-     * @Route("/tasks/{id}/toggle", name="task_toggle")
+     * @Route("/tasks/{id}/toggle",
+     *      name="task_toggle",
+     *      methods={"GET"},
+     *      requirements={"id"="\d+"}
+     * )
      */
     public function toggleTaskAction(Task $task)
     {
@@ -79,16 +98,29 @@ class TaskController extends Controller
     }
 
     /**
-     * @Route("/tasks/{id}/delete", name="task_delete")
+     * Delete a task.
+     *
+     * @Route("/tasks/{id}/delete",
+     *      name="task_delete",
+     *      methods={"Get"},
+     *      requirements={"id"="\d+"}
+     * )
+     *
+     * @Security(
+     *      "task.isAuthor(user)",
+     *      message="Vous n'avez pas les droits pour supprimer cette tâche!"
+     * )
      */
-    public function deleteTaskAction(Task $task)
+    public function deleteTaskAction(Task $task, ObjectManager $entityManager)
     {
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($task);
-        $em->flush();
+        // Remove the task
+        $entityManager->remove($task);
+        $entityManager->flush();
 
+        // Add the flash message
         $this->addFlash('success', 'La tâche a bien été supprimée.');
 
+        // Redirect
         return $this->redirectToRoute('task_list');
     }
 }

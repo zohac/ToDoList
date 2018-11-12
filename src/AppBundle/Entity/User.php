@@ -3,14 +3,21 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
+ * A user.
+ *
  * @ORM\Table("user")
+ *
  * @ORM\Entity
- * @UniqueEntity("email")
+ *
+ * @UniqueEntity(fields="email", message="Email déjà utilisé")
+ * @UniqueEntity(fields="username", message="Nom d'utilisateur déjà utilisé.")
+ *
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  */
 class User implements UserInterface
 {
@@ -23,6 +30,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=25, unique=true)
+     *
      * @Assert\NotBlank(message="Vous devez saisir un nom d'utilisateur.")
      */
     private $username;
@@ -34,57 +42,165 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=60, unique=true)
+     *
      * @Assert\NotBlank(message="Vous devez saisir une adresse email.")
      * @Assert\Email(message="Le format de l'adresse n'est pas correcte.")
      */
     private $email;
 
-    public function getId()
+    /**
+     * @var array
+     *
+     * @ORM\Column(name="roles", type="array", length=100, nullable=true)
+     */
+    private $roles;
+
+    /**
+     * @Assert\Length(max=4096)
+     * @Assert\Regex(
+     *      pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{6,}$/",
+     *      message="Le mot de passe doit comporter au moins 6 caractères, minuscule, majuscule et numérique."
+     * )
+     */
+    private $plainPassword;
+
+    /**
+     * Get the Id.
+     *
+     * @return int
+     */
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getUsername()
+    /**
+     * Get the username.
+     *
+     * @return string
+     */
+    public function getUsername(): ?string
     {
         return $this->username;
     }
 
-    public function setUsername($username)
+    /**
+     * Set the username.
+     *
+     * @param string $username
+     */
+    public function setUsername(string $username): self
     {
         $this->username = $username;
+
+        return $this;
     }
 
+    /**
+     * Get salt.
+     */
     public function getSalt()
     {
         return null;
     }
 
-    public function getPassword()
+    /**
+     * Get the password.
+     *
+     * @return string
+     */
+    public function getPassword(): ?string
     {
         return $this->password;
     }
 
-    public function setPassword($password)
+    /**
+     * Set the password.
+     *
+     * @param string $password
+     */
+    public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
     }
 
-    public function getEmail()
+    /**
+     * Get the email.
+     *
+     * @return string
+     */
+    public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    public function setEmail($email)
+    /**
+     * Set the email.
+     *
+     * @param string $email
+     */
+    public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
     }
 
-    public function getRoles()
+    /**
+     * Set roles.
+     *
+     * @param array $roles
+     *
+     * @return User
+     */
+    public function setRoles(array $roles): self
     {
-        return array('ROLE_USER');
+        $this->roles = $roles;
+
+        return $this;
     }
 
+    /**
+     * Get roles.
+     *
+     * @return array
+     */
+    public function getRoles(): ?array
+    {
+        return $this->roles;
+    }
+
+    /**
+     * Get plainPassword.
+     *
+     * @return string|null
+     */
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * Set PlainPassword.
+     *
+     * @param string $password
+     *
+     * @return User
+     */
+    public function setPlainPassword(string $password): User
+    {
+        $this->plainPassword = $password;
+
+        return $this;
+    }
+
+    /**
+     * Removes sensitive data from the user.
+     */
     public function eraseCredentials()
     {
+        $this->plainPassword = null;
     }
 }

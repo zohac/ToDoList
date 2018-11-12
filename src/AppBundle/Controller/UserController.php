@@ -4,22 +4,40 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
 use AppBundle\Form\UserType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AppBundle\Form\UserUpdateType;
 use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class UserController extends Controller
 {
     /**
-     * @Route("/users", name="user_list")
+     * @Route("/users",
+     *      name="user_list",
+     *      methods={"GET"}
+     * )
+     *
+     * @Security("has_role('ROLE_ADMIN')")
      */
-    public function listAction()
+    public function listAction(ObjectManager $entityManager)
     {
-        return $this->render('user/list.html.twig', ['users' => $this->getDoctrine()->getRepository('AppBundle:User')->findAll()]);
+        return $this->render('user/list.html.twig', [
+            'users' => $entityManager->getRepository(User::class)->findAll(),
+        ]);
     }
 
     /**
-     * @Route("/users/create", name="user_create")
+     * @Route("/users/create",
+     *      name="user_create",
+     *      methods={"GET", "POST"},
+     *      requirements={"id"="\d+"}
+     * )
+     *
+     * @Security("has_role('ROLE_ADMIN')")
+     *
+     * @param Request $request
      */
     public function createAction(Request $request)
     {
@@ -28,9 +46,9 @@ class UserController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPassword());
+            $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
 
             $em->persist($user);
@@ -45,17 +63,28 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/users/{id}/edit", name="user_edit")
+     * @Route("/users/{id}/edit",
+     *      name="user_edit",
+     *      methods={"GET", "POST"},
+     *      requirements={"id"="\d+"}
+     * )
+     *
+     * @Security("has_role('ROLE_ADMIN')")
+     *
+     * @param User    $user
+     * @param Request $request
      */
     public function editAction(User $user, Request $request)
     {
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(UserUpdateType::class, $user);
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
-            $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPassword());
-            $user->setPassword($password);
+        if ($form->isSubmitted() && $form->isValid()) {
+            if (null !== $user->getPlainPassword()) {
+                $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPlainPassword());
+                $user->setPassword($password);
+            }
 
             $this->getDoctrine()->getManager()->flush();
 
