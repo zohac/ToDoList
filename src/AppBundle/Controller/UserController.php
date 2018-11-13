@@ -31,8 +31,7 @@ class UserController extends Controller
     /**
      * @Route("/users/create",
      *      name="user_create",
-     *      methods={"GET", "POST"},
-     *      requirements={"id"="\d+"}
+     *      methods={"GET", "POST"}
      * )
      *
      * @Security("has_role('ROLE_ADMIN')")
