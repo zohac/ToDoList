@@ -173,6 +173,7 @@ Le scope est facultatif.
    * **repo** : Changement affectant les repository
    * **listener** : Changement affectant les listeners
    * **command** : Changement affectant les lignes de commandes php(cli)
+   * **view** : Changement affectant les vues de l'application
 
 3. **Description** : Le sujet contient une description succincte du changement
 
