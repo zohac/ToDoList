@@ -9,7 +9,7 @@ En matière de sécurité, le framework symfony comporte deux mécanismes:
 
 Le fichier `app\config\security.yml` permet de répondre aux questions:
 
-* Comment authenfifier les utilisateurs?
+* Comment authentifier les utilisateurs?
 * Comment charger les utilisateurs?
 * Comment protèger les mots de passe?
 
