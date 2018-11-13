@@ -24,21 +24,43 @@ Project 8 of the OpenClassrooms "Application Developer - PHP / Symfony" course.
 
 You can also download the bilemo source directly from the Git clone:
 
-    git clone https://github.com/zohac/bilemo.git todolist
-    cd todolist
+```bash
+git clone https://github.com/zohac/bilemo.git todolist
+cd todolist
+```
 
 Give write access to the /var directory
 
-    chmod 777 -R var
+```bash
+chmod 777 -R var
+```
 
 Then
 
-    composer install
+```bash
+composer install
+```
 
 Configure the application by completing the file /app/config/parameters.yml
 
-    php bin/console doctrine:schema:update --dump-sql
-    php bin/console doctrine:schema:update --force
+```bash
+php bin/console doctrine:schema:update --dump-sql
+php bin/console doctrine:schema:update --force
+```
+
+If you want to use a data set
+
+```bash
+php bin/console doctrine:fixtures:load
+```
+
+## Tests
+
+You can start the tests with the following command:
+
+```bash
+./vendor/bin/simple-phpunit --coverage-html web/test-coverage
+```
 
 ## Issues
 
